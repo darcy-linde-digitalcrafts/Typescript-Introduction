@@ -1,6 +1,6 @@
-# Typescript
+# TypeScript
 
-## Getting Started
+## Getting started
 
 1. **Install Node.js and npm**
 
@@ -52,7 +52,7 @@
    Now you're ready to start writing TypeScript code in your project directory.
    Create a TypeScript file with the .ts extension, for example, `app.ts`.
 
-## Understanding Static Typing
+## Understanding static typing
 
 TypeScript is a statically typed superset of JavaScript.
 
@@ -77,7 +77,7 @@ but it also introduces additional data types to provide better type checking and
 annotations. For a full list of available types, see the
 [docs](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html).
 
-## Building A TypeScript File
+## Building a TypeScript file
 
 1. Open the `app.ts` file you made earlier and add the following code:
 
@@ -100,7 +100,7 @@ annotations. For a full list of available types, see the
 
 3. Pat yourself on the back. You just compiled your first TypeScript file!
 
-## Hey Wait That Was Just JavaScript
+## Hey wait that was just JavaScript
 
 You probably noticed that the code we added to `app.ts` was no different than
 ordinary JavaScript code. And yet, it still considered valid by the TypeScript
@@ -152,3 +152,160 @@ code so that you can avoid type-related errors.\
 Your code is now more explicit and predictable. 🎉🎉
 
 ## Interfaces
+
+Interfaces define the structure of **objects**, which can be used to describe
+the shape of classes, function parameters, and object literals.
+
+### Declaring interfaces
+
+You declare an interface using the _interface_ keyword, followed by the
+interface name and a set of properties or method signatures enclosed in curly
+braces. For example:
+
+```ts
+interface Person {
+  name: string;
+  age: number;
+}
+```
+
+Here, we've declared an interface named Person with two properties: name of type
+_string_ and age of type _number_.
+
+### Using interfaces
+
+You can use interfaces to define the shape of objects, and TypeScript will check
+that objects conform to the interface's structure. Using the interface we just
+declared as an example:
+
+```ts
+let person: Person = {
+  name: "John",
+  age: 30,
+};
+```
+
+Here the person object must have both name and age properties of the correct
+types to satisfy the Person interface. You can try this out by putting the
+interface and person variables in a `person.ts` file. If we change the value of
+age from `30` to `"30"` we can see this error.
+
+![person code](./Images/person-code.png)
+![person error](./Images/person-error.png)
+
+### Optional properties
+
+You can make properties optional in an interface by adding a `?` after the
+property name:
+
+```ts
+interface Person {
+  name: string;
+  age?: number;
+}
+```
+
+With age marked as optional, an object can have or omit the age property when
+implementing the Person interface.
+
+### Readonly properties
+
+You can mark properties as readonly, meaning they can't be modified once
+assigned:
+
+```ts
+interface Point {
+  readonly x: number;
+  readonly y: number;
+}
+
+let point: Point = { x: 0, y: 0 };
+// point.x = 10;
+// Error: Cannot assign to 'x' because it is a read-only property.
+```
+
+### Function signatures
+
+Interfaces can also describe function signatures. For example, you can define an
+interface for a function that takes two numbers and returns a number:
+
+```ts
+interface MathFunction {
+  (x: number, y: number): number;
+}
+
+let add: MathFunction = function (a, b) {
+  return a + b;
+};
+```
+
+### Extending interfaces
+
+You can extend interfaces by using the `extends` keyword to create a new
+interface that inherits properties and methods from one or more existing
+interfaces. For example, if we wanted to have an `Employee` interface that
+contianed `name`, `age`, and `employeeId` properties, we may notice that we have
+already defined an interface that includes `name` and `age`. We could extend our
+`Employee` interface off of our `Person` interface and avoid repetition.
+
+```ts
+interface Employee extends Person {
+  employeeId: number;
+}
+
+let employee: Employee = {
+  name: "Alice",
+  age: 25,
+  employeeId: 12345,
+};
+```
+
+In this example, Employee extends Person, inheriting the name and age
+properties.
+
+### Implementing interfaces with classes
+
+You can `implement` an interface in a class by ensuring the class provides
+implementations for all the properties and methods declared in the interface:
+
+```ts
+class Student implements Person {
+  constructor(public name: string, public age: number) {}
+}
+
+let student: Student = new Student("Bob", 21);
+```
+
+### Function interfaces and call signatures
+
+You can also use interfaces to describe the shape of functions. This is
+particularly useful when defining callback functions or higher-order functions:
+
+```ts
+interface OnClick {
+  (event: MouseEvent): void;
+}
+
+function registerClickHandler(callback: OnClick) {
+  // ...
+}
+```
+
+### Index signatures
+
+Interfaces can define index signatures for objects with dynamic property names:
+
+```ts
+interface Dictionary {
+  [key: string]: string;
+}
+
+let colors: Dictionary = {
+  red: "#FF0000",
+  green: "#00FF00",
+  blue: "#0000FF",
+};
+```
+
+This allows you to create objects with arbitrary property names and values of a
+specific type.
