@@ -554,7 +554,7 @@ tsconfig.json file to either "react" or "preserve":
 ```json
 {
   "compilerOptions": {
-    "jsx": "react" // or "preserve"
+    "jsx": "react"
   }
 }
 ```
