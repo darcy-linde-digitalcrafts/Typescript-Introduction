@@ -498,3 +498,133 @@ const pair: KeyValuePair<string, number> = { key: "age", value: 30 };
 
 Here, KeyValuePair is an interface with two type parameters, K for the key type
 and V for the value type.
+
+## Type Assertion
+
+Type assertion in TypeScript is a way to tell the TypeScript compiler that you
+know more about the type of a value than it can infer on its own. It allows you
+to override the default type inference and treat a value as a specific type.
+Type assertions are particularly useful when working with situations where
+TypeScript's type inference might be too broad or when interfacing with external
+libraries that don't provide type information.
+
+### Syntax
+
+Type assertion can be done in two ways:
+
+Using the as keyword:
+
+```ts
+let value: any = "hello";
+let length: number = (value as string).length;
+```
+
+Using angle brackets (<>):
+
+```ts
+let value: any = "hello";
+let length: number = (<string>value).length;
+```
+
+Both forms are equivalent and serve the same purpose.
+
+### When to use type assertion
+
+Type assertion should be used with caution, as it bypasses TypeScript's type
+checking. It's generally recommended to use type assertions when:
+
+- You're confident that the type you're asserting is correct.
+- You're working with external libraries that lack type definitions (e.g., when
+  using JavaScript libraries).
+- TypeScript's type inference is too broad, and you need to narrow it down for a
+  specific use case.
+
+## TypeScript meets JSX
+
+TypeScript with JSX (JavaScript XML) is a powerful combination, especially when
+working with libraries like React for building user interfaces. JSX allows you
+to write HTML-like code within your JavaScript/TypeScript code, and TypeScript
+provides type safety for JSX elements.
+
+### Enabling JSX in TypeScript
+
+To use JSX in TypeScript, you need to set the jsx compiler option in your
+tsconfig.json file to either "react" or "preserve":
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react" // or "preserve"
+  }
+}
+```
+
+- "react" mode enables TypeScript to parse and type-check JSX expressions.
+- "preserve" mode treats JSX as compatible with React but doesn't perform
+  additional checks.
+
+As a side note, in TypeScript, JSX files typically use the .tsx file extension.
+This helps TypeScript identify files that contain JSX syntax and apply the
+correct type checking.
+
+### JSX elements
+
+TypeScript provides type safety for JSX elements. When you use JSX in
+TypeScript, it infers and checks the types of JSX elements and their attributes.
+For instance:
+
+```tsx
+const name: string = "John";
+const element = <div>Hello, {name}!</div>;
+```
+
+TypeScript will ensure that the name variable is of type string, and you can use
+it within the JSX element.
+
+### Type assertion in JSX
+
+You can use type assertions (e.g., (value as Type)) in JSX, just like in regular
+TypeScript. This can be helpful when working with dynamic data or integrating
+with libraries that might not have type definitions.
+
+```tsx
+const dynamicValue: any = "Hello, World!";
+const element = <div>{dynamicValue as string}</div>;
+```
+
+### Props and components
+
+In React and other component-based libraries, you can define components with
+props (short for properties). TypeScript helps you define and use props with the
+correct types:
+
+```tsx
+interface GreetingProps {
+  name: string;
+}
+
+function Greeting(props: GreetingProps) {
+  return <div>Hello, {props.name}!</div>;
+}
+
+const element = <Greeting name="John" />;
+```
+
+Here, the Greeting component accepts name as a prop of type string, and
+TypeScript ensures that the name prop is provided and of the correct type when
+using the component.
+
+### Event handling
+
+TypeScript can provide type safety for event handling in JSX:
+
+```tsx
+function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+  console.log("Button clicked!");
+}
+
+const element = <button onClick={handleClick}>Click me</button>;
+```
+
+In this example, TypeScript ensures that the onClick handler is compatible with
+the onClick event of a button element.
