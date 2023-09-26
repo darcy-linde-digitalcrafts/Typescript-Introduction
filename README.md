@@ -309,3 +309,192 @@ let colors: Dictionary = {
 
 This allows you to create objects with arbitrary property names and values of a
 specific type.
+
+## Functions
+
+### Declaring functions
+
+We saw a basic function declaration earlier when we made the `greet` function.
+Here is another basic function declaration:
+
+```ts
+function add(x: number, y: number): number {
+  return x + y;
+}
+```
+
+In this example, add is a function that takes two parameters (x and y) of type
+number and returns a value of type number.
+
+### Optional parameters
+
+Like with interfaces, we can use the `?` character to make a parameter optional.
+You add it after the parameter name in the parameter list:
+
+```ts
+function greet(name: string, greeting?: string): string {
+  if (greeting) {
+    return `${greeting}, ${name}!`;
+  } else {
+    return `Hello, ${name}!`;
+  }
+}
+```
+
+In the above example, the greeting parameter is optional. You can call
+greet("John") without providing a greeting, and it will default to "Hello."
+
+Try running this yourself by modifying your `app.ts` file.
+
+### Default parameters
+
+You can provide default values for function parameters:
+
+```ts
+function greet(name: string, greeting: string = "Hello"): string {
+  return `${greeting}, ${name}!`;
+}
+```
+
+If you don't provide a greeting when calling greet("John"), it will use the
+default value of "Hello."
+
+### Rest parameters
+
+You can use rest parameters to capture a variable number of arguments into an
+array:
+
+```ts
+function sum(...numbers: number[]): number {
+  return numbers.reduce((total, num) => total + num, 0);
+}
+
+const result = sum(1, 2, 3, 4, 5); // Result is 15
+```
+
+In this example, the ...numbers syntax allows you to pass any number of
+arguments to the sum function, and they will be collected into the numbers
+array.
+
+### Function overloading
+
+You can define multiple function signatures for the same function using function
+overloading. TypeScript will select the appropriate signature based on the
+number and types of arguments provided:
+
+```ts
+function combine(a: string, b: string): string;
+function combine(a: number, b: number): number;
+function combine(a: any, b: any): any {
+  return a + b;
+}
+
+const result1 = combine("Hello, ", "world!"); // Result is "Hello, world!"
+const result2 = combine(5, 10); // Result is 15
+```
+
+In this example, combine is overloaded to handle both string and number
+arguments.
+
+### Arrow functions
+
+Arrow functions are made similarly to regular functions:
+
+```ts
+const add = (x: number, y: number): number => x + y;
+```
+
+### Function types
+
+Functions themselves can have types in TypeScript. We saw something similar in
+the `Function signatures` subheading of `interfaces`. For example, you can
+define a type for a function that takes two numbers and returns a number:
+
+```ts
+type MathOperation = (x: number, y: number) => number;
+
+const add: MathOperation = (x, y) => x + y;
+```
+
+### Callback functions
+
+Callback functions are commonly used in asynchronous code. You can define the
+types of callback functions to ensure they match expectations:
+
+```ts
+function fetchData(url: string, callback: (data: any) => void) {
+  // Fetch data and call the callback with the result
+}
+```
+
+## Generics
+
+Sometimes we want a function or component to be able to accept all types of
+input. One option would be to use the `any` type, like so:
+
+```ts
+function identity(arg: any): any {
+  return arg;
+}
+```
+
+However, by using the `any` type to allow for all inputs, you can see that we
+have no way of knowing what type the actual input or output is when the
+function is actually used. This is where generics come into play.
+
+### Generic functions
+
+You can create generic functions by using angle brackets, `<>`, to declare a
+type parameter.
+
+Generics allow us to capture the type of the argument in such a way that we can
+also use it to denote what is being returned. You can create generic functions
+by using angle brackets, `<>`, to declare a type parameter.
+
+```ts
+function identity<T>(arg: T): T {
+  return arg;
+}
+```
+
+This type allows us to capture the type the user provides (e.g. number), so that
+we can use that information later. We can see here that the same type is used
+for the argument and the return type. This allows us to traffic that type
+information in one side of the function and out the other.
+
+```ts
+const str = identity("Hello"); // str is of type string
+const num = identity(42); // num is of type number
+```
+
+### Using multiple type parameters
+
+You can use multiple type parameters in a generic function:
+
+```ts
+function pair<T, U>(first: T, second: U): [T, U] {
+  return [first, second];
+}
+
+const result = pair("one", 1); // result is of type [string, number]
+```
+
+In this example, pair takes two type parameters T and U and returns an array
+containing values of those types.
+
+### Generic interfaces
+
+You can also use generics with interfaces to define flexible contracts for
+objects:
+
+```ts
+interface KeyValuePair<K, V> {
+  key: K;
+  value: V;
+}
+
+const pair: KeyValuePair<string, number> = { key: "age", value: 30 };
+```
+
+Here, KeyValuePair is an interface with two type parameters, K for the key type
+and V for the value type.
