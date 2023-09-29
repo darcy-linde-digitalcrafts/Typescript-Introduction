@@ -459,7 +459,7 @@ function identity<T>(arg: T): T {
 
 This type allows us to capture the type the user provides (e.g. number), so that
 we can use that information later. We can see here that the same type is used
-for the argument and the return type. This allows us to traffic that type
+for the argument and the return type. This allows us to escort that type
 information in one side of the function and out the other.
 
 ```ts
